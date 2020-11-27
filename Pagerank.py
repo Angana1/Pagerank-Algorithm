@@ -6,35 +6,6 @@ G1 = snap.LoadEdgeList(snap.PUNGraph, "facebook_combined.txt", 0, 1)
 n=G1.GetNodes() #stores number of nodes
 
 
-#CLOSENESS CENTRALITY CALCULATION
-
-NIdToDistH = snap.TIntH()#hash table to store shortest paths to all other nodes.
-
-file_closeness=open("closeness.txt","w+")
-
-mydict={}#dictionary to store node id and closeness centrality value
-for node in G1.Nodes():
-    sum=0
-    shortestPath = snap.GetShortPath(G1, node.GetId(), NIdToDistH)
-    for key in NIdToDistH:
-        sum=sum+NIdToDistH[key]
-    closeness_centrality=(n-1)/sum
-    mydict.update({node.GetId():closeness_centrality})
-
-#sorted_dict stores closeness centrality values sorted by centrality.
-sorted_dict=sorted(mydict.items(), key=lambda x: x[1], reverse=True)
-
-#the following code prints the values into the text file
-for i in sorted_dict:
-    #str1=str(i[0])+" "+str("%0.6f"i[1])+"\n"
-    str1="%d %0.6f\n"%(i[0],i[1])
-    file_closeness.write(str1)
-
-file_closeness.close()
-
-
-
-
 #BIASED PAGERANK CALCULATION
 
 degVals={} #dictionary degVals stores degree of each node in the form {nodeID: degree}
